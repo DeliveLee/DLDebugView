@@ -21,7 +21,7 @@
 
 ## <a id="Features"></a> Features【能做什么】
 - DLDebugView usually use in when you wanna got debug info but unable connect to Xcode.(Like Testflight or Fabric something, or just when QA testing)
-    * Just use less than 5 lines code and almost same NSLog way, you can get a in app debugview and more future than use NSLog.
+    * Just use less than 5 lines code and almost same NSLog way, you can get a in app debugview and more feature than use NSLog.
 
 
 - DLDebugView用于一些无法连接Xcode实时获取debug信息时，使用的In App显示Debug信息窗口。(比如使用Testflight或Fabric下载的版本一类的情况，或者QA在进行测试)
