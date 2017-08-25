@@ -20,12 +20,17 @@
     // Override point for customization after application launch.
     
 
-    UINavigationController *navi = [[UINavigationController alloc]initWithRootViewController:[ViewController new]];
-    [self.window setRootViewController:navi];
+    [self.window setRootViewController:[ViewController new]];
     [self.window makeKeyAndVisible];
 
     DLDebugView *debugView = [DLDebugView sharedManager];
     [self.window addSubview:debugView];
+    
+    
+    DLLog(DLDebugViewInfoMessage, @"here is a message");
+    DLLog(DLDebugViewInfoWarning, @"here is a warning");
+    DLLog(DLDebugViewInfoError, @"here is a error");
+
 
     return YES;
 }
