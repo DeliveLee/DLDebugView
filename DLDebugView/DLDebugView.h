@@ -10,7 +10,7 @@
 #import <SDAutoLayout/SDAutoLayout.h>
 
 
-# define DLLog(type,fmt, ...) [[DLDebugView sharedManager] addDebugInfo:[NSString stringWithFormat:(fmt), ##__VA_ARGS__] withInfoType:type];
+# define DLLog(type, ...) [[DLDebugView sharedManager] addDebugInfo:[NSString stringWithFormat:__VA_ARGS__] withInfoType:type];
 
 //#define DLLog
 
@@ -27,8 +27,14 @@ typedef enum : NSUInteger {
 
 + (instancetype)sharedManager;
 
+-(instancetype)init NS_UNAVAILABLE;
++ (instancetype)new NS_UNAVAILABLE;
+
+-(void)show;
+-(void)hide;
+
 -(void)addDebugInfo:(NSString *)str withInfoType:(DLDebugViewInfoType)infoType;
 -(void)addDebugInfo:(NSString *)str;
 
-
+-(void)setMessageMaxLimit:(long)maxLimit;
 @end

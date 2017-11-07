@@ -8,6 +8,8 @@
 
 #import "DLDebugView.h"
 #import "DLDebugViewDataView.h"
+#import <CoreMotion/CoreMotion.h>
+
 
 int const btnWidth = 40;
 int const btnOffsetForScreenEdge = 15;
@@ -29,6 +31,10 @@ typedef enum : NSUInteger {
     DLDebugViewDataView *debugViewDataView;
     DebugViewStatus debugViewStatus;
     DebugViewSideStatus debugViewSideStatus;
+    CMMotionManager *cmManager;
+    BOOL histeresisExcited;
+    CMAccelerometerData* lastAcceleration;
+
 }
 
 @end
@@ -36,6 +42,17 @@ typedef enum : NSUInteger {
 static DLDebugView *manager = nil;
 static dispatch_once_t pred;
 
+static BOOL AccelerationIsShaking(CMAccelerometerData* last, CMAccelerometerData* current, double threshold) {
+    double
+    deltaX = fabs(last.acceleration.x - current.acceleration.x),
+    deltaY = fabs(last.acceleration.y - current.acceleration.y),
+    deltaZ = fabs(last.acceleration.z - current.acceleration.z);
+    
+    return
+    (deltaX > threshold && deltaY > threshold) ||
+    (deltaX > threshold && deltaZ > threshold) ||
+    (deltaY > threshold && deltaZ > threshold);
+}
 
 @implementation DLDebugView
 
@@ -54,6 +71,12 @@ static dispatch_once_t pred;
     return manager;
 }
 
+-(void)show{
+    self.hidden = NO;
+}
+-(void)hide{
+    self.hidden = YES;
+}
 
 -(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:CGRectMake(btnWidth/2, 64+btnWidth, 0, 0)];
@@ -61,6 +84,7 @@ static dispatch_once_t pred;
         return nil;
     }
     [self createUI];
+    [self createShakeTrack];
     
     return self;
 }
@@ -72,13 +96,13 @@ static dispatch_once_t pred;
         return nil;
     }
     [self createUI];
+    [self createShakeTrack];
     
     return self;
 }
 
 -(void)createUI{
     
-
     
     buttonView = [UIImageView new];
     buttonView.userInteractionEnabled = YES;
@@ -103,6 +127,37 @@ static dispatch_once_t pred;
     [self bringSubviewToFront:buttonView];
 
 }
+
+-(void)createShakeTrack{
+    cmManager = [[CMMotionManager alloc]init];
+    if (!cmManager.accelerometerAvailable) {
+        NSLog(@"CMMotionManager unavailable");
+    }
+    cmManager.accelerometerUpdateInterval = 0.1;
+    [cmManager startAccelerometerUpdates];
+
+    [cmManager startAccelerometerUpdatesToQueue:[[NSOperationQueue alloc] init] withHandler:^(CMAccelerometerData *accelerometerData,NSError *error) {
+        
+        if (lastAcceleration) {
+            if (!histeresisExcited && AccelerationIsShaking(lastAcceleration, accelerometerData, 0.7)) {
+                histeresisExcited = YES;
+            } else if (histeresisExcited && !AccelerationIsShaking(lastAcceleration, accelerometerData, 0.2)) {
+                histeresisExcited = NO;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    self.hidden ? [self show] : [self hide];
+                });
+
+            }
+        }
+        
+        lastAcceleration = accelerometerData;
+
+    }];
+
+}
+
+
 
 -(void)buttonViewTaped:(UITapGestureRecognizer *)recognizer{
     [self sd_clearAutoLayoutSettings];
@@ -207,6 +262,9 @@ static dispatch_once_t pred;
     [debugViewDataView addDebugInfo:str];
 }
 
+-(void)setMessageMaxLimit:(long)maxLimit{
+    [debugViewDataView setMessageMaxLimit:maxLimit];
+}
 
 
 @end

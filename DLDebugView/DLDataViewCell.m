@@ -28,7 +28,7 @@
         _lblInfo.sd_layout
         .leftSpaceToView(self.contentView, 10)
         .rightSpaceToView(self.contentView, 10)
-        .topSpaceToView(self.contentView, 0)
+        .topSpaceToView(self.contentView, 2)
         .autoHeightRatio(0);
         
     }
@@ -59,7 +59,7 @@
     }
     _lblInfo.textColor = textColor;
 
-    [self setupAutoHeightWithBottomViewsArray:@[_lblInfo] bottomMargin:0];
+    [self setupAutoHeightWithBottomViewsArray:@[_lblInfo] bottomMargin:2];
 }
 
 

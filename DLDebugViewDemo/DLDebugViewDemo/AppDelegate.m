@@ -23,9 +23,10 @@
     [self.window setRootViewController:[ViewController new]];
     [self.window makeKeyAndVisible];
 
-    DLDebugView *debugView = [DLDebugView sharedManager];
-    [self.window addSubview:debugView];
     
+    [self.window addSubview:[DLDebugView sharedManager]];
+    [[DLDebugView sharedManager] setMessageMaxLimit:0];
+
     
     DLLog(DLDebugViewInfoMessage, @"here is a message");
     DLLog(DLDebugViewInfoWarning, @"here is a warning");

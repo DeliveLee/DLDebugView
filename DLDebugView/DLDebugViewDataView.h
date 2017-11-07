@@ -12,4 +12,7 @@
 @interface DLDebugViewDataView : UIView
 -(void)addDebugInfo:(NSString *)str withInfoType:(DLDebugViewInfoType)infoType;
 -(void)addDebugInfo:(NSString *)str;
+
+-(void)setMessageMaxLimit:(long)maxLimit;
+
 @end

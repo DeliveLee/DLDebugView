@@ -19,9 +19,9 @@
     // Do any additional setup after loading the view, typically from a nib.
     self.view.backgroundColor = UIColor.whiteColor;
     
-    DLLog(DLDebugViewInfoMessage, @"here is a message");
-    DLLog(DLDebugViewInfoWarning, @"here is a warning");
-    DLLog(DLDebugViewInfoError, @"here is a error");
+    DLLog(DLDebugViewInfoMessage, @"here is a message in vc");
+    DLLog(DLDebugViewInfoWarning, @"here is a warning in vc");
+    DLLog(DLDebugViewInfoError, @"here is a error in vc");
 }
 
 

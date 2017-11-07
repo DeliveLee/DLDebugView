@@ -11,6 +11,7 @@
 * [Examples 【示例】](#Examples)
 	* [Import In Code 【添加引用】](#Import_In_Code)
 	* [Add To Window 【添加窗口】](#Add_To_Window)
+	* [Limit Messages Count 【设置信息限制】](#Limit_Messages_Count)
 	* [Print Debug Info 【打印信息】](#Print_Debug_Info)
 * [ToDo List【将会添加】](#ToDo_List)
 
@@ -20,7 +21,7 @@
 # <a id="Getting_Started"></a> Getting Started【开始使用】
 
 ## <a id="Features"></a> Features【能做什么】
-- DLDebugView usually use in when you wanna got debug info but unable connect to Xcode.(Like Testflight or Fabric something, or just when QA testing)
+- DLDebugView usually use in when you wanna get debug info but unable connect to Xcode.(Like Testflight or Fabric something, or just when QA testing)
     * Just use less than 5 lines code and almost same NSLog way, you can get a in app debugview and more feature than use NSLog.
 
 
@@ -65,9 +66,22 @@ DLDebugView *debugView = [DLDebugView sharedManager];
 
 ##### Then running your app, you will get a Blue Button on screen left top! Try to click it ^.^
 ##### You can click Blue button to open/close debugview, and drag blue button to change debugview position.
-##### 这时候运行你的程序，你会得到一个绿色的按钮显示在屏幕左上方！点击它试试 ^.^
+##### You can shake your phone to quick hide/show DebugView right now.
+##### Under the DebugView, will have 2 buttons, one is "Clear", it will clear your all meesages what in debugView, the other is "Lock" button, it will lock/unlock auto scroll in scrollView.
+##### 这时候运行你的程序，你会得到一个蓝色的按钮显示在屏幕左上方！点击它试试 ^.^
 ##### 你可以点击蓝色按钮去打开、关闭debugview，并且拖动蓝色按钮来改变debugview的位置。
+##### 你现在可以通过摇动手机来快速隐藏、显示DebugView。
+##### 在DebugView下方，有两个按钮，一个为“Clear”，当你点击时会清空所有在DebugView内的信息，另一个按钮“Lock”，当你点击时，它会锁定、解锁在scrollView内的自动滚动。
 
+
+
+### <a id="Limit_Messages_Count"></a> Limit Messages Count 【设置信息限制】
+```objc
+[[DLDebugView sharedManager] setMessageMaxLimit:100];
+```
+* Note this 【请注意】:
+* Default limit is 100, if you not set this, and when you set up it as 0, it will have no-limit.
+* 如果你不设置它，默认的限制为100条，如果你设置它为0，它会变成无限制。
 
 ### <a id="Print_Debug_Info"></a> Print Debug Info 【打印信息】
 ```objc
@@ -80,6 +94,6 @@ DLLog(DLDebugViewInfoError, @"here is a error");
 * `DLDebugViewInfoMessage`/`DLDebugViewInfoWarning`/`DLDebugViewInfoError` 是一个枚举值， 你可以通过指定这个值，来改变调试信息的文字颜色。
 
 ### <a id="ToDo_List"></a> ToDo List【将会添加】
-- Maybe can use shake phone to showing the Blue button. (Thanks Maail :) 【也许应该支持通过晃动手机显示蓝色按钮】
+- **Done** ~~Maybe can use shake phone to showing the Blue button. (Thanks Maail :) 【也许应该支持通过晃动手机显示蓝色按钮】~~
 - DebugView should support display image 【DebugView应该支持图片显示】
 - Maybe should have some Quick functionality, like running some Foundation or code by inputing? 【也许应该有一些快速方法，通过输入来运行一些方法或者代码？】
